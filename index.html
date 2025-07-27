@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RESELLER GAMING PAYMENT</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+        font-family:'Segoe UI',sans-serif;
+        background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+        min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;
+    }
+    .container{max-width:500px;width:100%;text-align:center;}
+    .logo{margin-bottom:40px;animation:fadeInDown 1s ease-out;}
+    .logo h1{color:#fff;font-size:3rem;font-weight:700;text-shadow:0 4px 6px rgba(0,0,0,.1);letter-spacing:2px;}
+    .logo span{color:#ffd700;font-size:.8em;}
+    .payment-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-bottom:30px;}
+    .payment-option{
+        background:#fff;border-radius:15px;padding:25px;text-decoration:none;color:#333;
+        box-shadow:0 8px 32px rgba(0,0,0,.1);transition:all .3s ease;
+        display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;
+        opacity:0;animation:fadeInUp .6s ease-out forwards;
+    }
+    .payment-option:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(0,0,0,.15);}
+    .payment-option::before{
+        content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+        background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+        transition:left .5s;
+    }
+    .payment-option:hover::before{left:100%;}
+    .payment-info{display:flex;align-items:center;gap:15px;}
+    .payment-icon{
+        width:50px;height:50px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+        font-size:24px;color:#fff;
+    }
+    .create{background:linear-gradient(135deg,#667eea,#764ba2);}
+    .qris{background:linear-gradient(135deg,#ff6b6b,#ee5a24);}
+    .dana{background:linear-gradient(135deg,#00d2d3,#54a0ff);}
+    .gopay{background:linear-gradient(135deg,#00b894,#00cec9);}
+    .payment-title{font-size:1.2rem;font-weight:600;margin-bottom:3px;}
+    .payment-desc{font-size:.9rem;color:#666;}
+    .arrow-icon{color:#667eea;font-size:1.2rem;transition:transform .3s ease;}
+    .payment-option:hover .arrow-icon{transform:translateX(5px);}
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-30px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+    .payment-option:nth-child(1){animation-delay:.1s;}
+    .payment-option:nth-child(2){animation-delay:.2s;}
+    .payment-option:nth-child(3){animation-delay:.3s;}
+    .payment-option:nth-child(4){animation-delay:.4s;}
+    @media(max-width:480px){
+        .logo h1{font-size:2.5rem;}
+        .payment-option{padding:20px;}
+        .payment-icon{width:45px;height:45px;font-size:20px;}
+    }
+
+    /* Pop-up Style */
+    .popup{
+        position:fixed;top:0;left:0;width:100%;height:100%;
+        background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;
+        opacity:0;pointer-events:none;transition:opacity .3s ease;
+        z-index:999;
+    }
+    .popup.show{opacity:1;pointer-events:auto;}
+    .popup-content{
+        background:#fff;padding:30px 40px;border-radius:15px;text-align:center;
+        max-width:320px;width:90%;box-shadow:0 15px 35px rgba(0,0,0,.2);
+        transform:scale(.8);transition:transform .3s ease;
+    }
+    .popup.show .popup-content{transform:scale(1);}
+    .popup-title{font-size:1.5rem;font-weight:700;color:#000;margin-bottom:10px;}
+    .popup-number{font-size:1.3rem;font-weight:600;color:#333;margin-bottom:20px;}
+    .popup-close{
+        background:#667eea;color:#fff;border:none;padding:10px 25px;border-radius:8px;cursor:pointer;
+        transition:background .3s ease;
+    }
+    .popup-close:hover{background:#5567d6;}
+
+    /* QRIS special popup */
+    .qris-popup .popup-content{max-width:260px;transition:max-width .3s ease;}
+    .qris-popup.zoom .popup-content{max-width:90vw;}
+    #qrisImg{width:100%;cursor:pointer;border-radius:10px;transition:transform .3s ease;}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="logo"><h1>RESELLER GAMING<span>PAYMENT</span></h1></div>
+    <div class="payment-grid">
+        <a href="/cpayment" class="payment-option">
+            <div class="payment-info">
+                <div class="payment-icon create"><i class="fas fa-plus"></i></div>
+                <div>
+                    <div class="payment-title">Create Payment</div>
+                    <div class="payment-desc">Buat pembayaran baru</div>
+                </div>
+            </div><i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+        <a href="/qris" class="payment-option">
+            <div class="payment-info">
+                <div class="payment-icon qris"><i class="fas fa-qrcode"></i></div>
+                <div>
+                    <div class="payment-title">QRIS</div>
+                    <div class="payment-desc">Pembayaran QRIS universal</div>
+                </div>
+            </div><i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+        <a href="/dana" class="payment-option">
+            <div class="payment-info">
+                <div class="payment-icon dana"><i class="fas fa-wallet"></i></div>
+                <div>
+                    <div class="payment-title">DANA</div>
+                    <div class="payment-desc">Pembayaran Via DANA</div>
+                </div>
+            </div><i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+        <a href="/gopay" class="payment-option">
+            <div class="payment-info">
+                <div class="payment-icon gopay"><i class="fas fa-mobile-alt"></i></div>
+                <div>
+                    <div class="payment-title">GoPay</div>
+                    <div class="payment-desc">Pembayaran Via GoPay</div>
+                </div>
+            </div><i class="fas fa-chevron-right arrow-icon"></i>
+        </a>
+    </div>
+</div>
+
+<!-- Popup untuk DANA & GoPay -->
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <div id="popup-title" class="popup-title"></div>
+        <div id="popup-number" class="popup-number"></div>
+        <button class="popup-close" onclick="closePopup()">Tutup</button>
+    </div>
+</div>
+
+<!-- Popup QRIS -->
+<div id="qrisPopup" class="popup qris-popup">
+    <div class="popup-content">
+        <div class="popup-title">QRIS</div>
+        <img id="qrisImg" src="https://files.catbox.moe/tzb8i5.jpg" alt="QRIS Code" onclick="toggleZoom()">
+        <br><br>
+        <button class="popup-close" onclick="closeQrisPopup()">Tutup</button>
+    </div>
+</div>
+
+<script>
+function showPopup(title, number){
+    document.getElementById('popup-title').textContent=title;
+    document.getElementById('popup-number').textContent=number;
+    document.getElementById('popup').classList.add('show');
+}
+function closePopup(){document.getElementById('popup').classList.remove('show');}
+
+// Event DANA & GoPay
+document.querySelector('a[href="/dana"]').addEventListener('click',e=>{
+    e.preventDefault();
+    showPopup('Nomor DANA','0882008771871');
+});
+document.querySelector('a[href="/gopay"]').addEventListener('click',e=>{
+    e.preventDefault();
+    showPopup('Nomor GoPay','08812948247');
+});
+
+// QRIS Popup
+document.querySelector('a[href="/qris"]').addEventListener('click',e=>{
+    e.preventDefault();
+    const qris=document.getElementById('qrisPopup');
+    qris.classList.add('show');
+    qris.classList.remove('zoom');
+});
+function closeQrisPopup(){document.getElementById('qrisPopup').classList.remove('show');}
+function toggleZoom(){document.getElementById('qrisPopup').classList.toggle('zoom');}
+</script>
+</body>
+</html>
