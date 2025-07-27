@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FR3-Payment Gateway</title>
+  <link rel="stylesheet" href="src/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+  <div class="container">
+    <h1>Reseller Gaming-Payment Gateway</h1>
+
+    <div id="form-section">
+      <label for="amount">Masukkan Nominal (Rp)</label>
+      <input type="number" id="amount" placeholder="1000" min="1000" />
+      <button onclick="createPayment()">Buat Pembayaran</button>
+    </div>
+
+    <div id="qr-section" style="display: none;">
+      <h2>Scan QRIS untuk membayar</h2>
+      <img id="qr-image" alt="QRIS" />
+      <p>Status: <span id="status">Menunggu pembayaran...</span></p>
+    </div>
+
+    <div id="success-section" style="display: none;">
+      <h2>Pembayaran Berhasil ✅</h2>
+      <p><strong>ID Transaksi:</strong> <span id="trans-id"></span></p>
+      <p><strong>Nominal:</strong> Rp<span id="trans-amount"></span></p>
+      <p><strong>Type:</strong> FR3-Payment</p>
+      <button onclick="resetPage()">Buat Transaksi Baru</button>
+    </div>
+  </div>
+
+  <script src="src/script.js"></script>
+</body>
+  </html>
+  
